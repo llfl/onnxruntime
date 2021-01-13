@@ -106,6 +106,7 @@ class ONNXExporterTest(unittest.TestCase):
         self.run_test(CustomInverse(), x, custom_opsets={'com.microsoft': 1})
 
     def test_zconv(self):
+        print("zconv testing")
         class CustomZconv(torch.nn.Module):
             def forward(self, x):
                 return torch.inverse(x) + x
