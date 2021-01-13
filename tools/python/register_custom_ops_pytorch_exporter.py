@@ -28,11 +28,15 @@ def register_custom_op():
     def tril(g, self, diagonal):
         return g.op("com.microsoft::Trilu", self, diagonal, upper_i=0)
 
+    def zconv(g, self):
+        return g.op("com.microsoft::Zconv", self)
+
     # Op Registration
     register_custom_op_symbolic('::inverse', inverse, _onnx_opset_version)
     register_custom_op_symbolic('::gelu', gelu, _onnx_opset_version)
     register_custom_op_symbolic('::triu', triu, _onnx_opset_version)
     register_custom_op_symbolic('::tril', tril, _onnx_opset_version)
+    register_custom_op_symbolic('::zconv', zconv, _onnx_opset_version)
 
 
 def unregister_custom_op():
@@ -56,3 +60,4 @@ def unregister_custom_op():
     unregister('::gelu', _onnx_opset_version)
     unregister('::triu', _onnx_opset_version)
     unregister('::tril', _onnx_opset_version)
+    unregister('::zconv', _onnx_opset_version)

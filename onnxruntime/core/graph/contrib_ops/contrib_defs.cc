@@ -2275,6 +2275,49 @@ It's an extension of Gelu. It takes the sum of input A and bias input B as the i
         }
       });
 
+  ONNX_CONTRIB_OPERATOR_SCHEMA(Zconv)
+      .SetDomain(kMSDomain)
+      .SinceVersion(1)
+      .Input(0, "X", "Input tensor. Every matrix in the batch must be invertible.", "T")
+      .Output(0, "Y", "Output tensor of the same type and shape as the input tensor.", "T")
+      .TypeConstraint(
+          "T",
+          {"tensor(float16)",
+           "tensor(float)",
+           "tensor(double)"},
+          "Constrain input and output types to float tensors.")
+      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) {
+        // Type inference
+        using namespace ONNX_NAMESPACE;
+        propagateElemTypeFromInputToOutput(ctx, 0, 0);
+
+        // Shape inference
+        if (hasInputShape(ctx, 0)) {
+          const TensorShapeProto& input_shape =
+              ctx.getInputType(0)->tensor_type().shape();
+          const int rank = static_cast<int>(input_shape.dim_size());
+
+          if (rank < 2) {
+            fail_shape_inference("Input rank must be >= 2.")
+          }
+
+          const auto mat_w = input_shape.dim(rank - 1);
+          const auto mat_h = input_shape.dim(rank - 2);
+          if (mat_w.has_dim_value() && mat_h.has_dim_value() &&
+              (mat_w.dim_value() != mat_h.dim_value())) {
+            fail_shape_inference(
+                "The inner-most 2 dimensions must have the same size (mat_w:",
+                mat_w.dim_value(),
+                " != mat_h:",
+                mat_h.dim_value(),
+                ").");
+          }
+
+          // Shape inference
+          propagateShapeFromInputToOutput(ctx, 0, 0);
+        }
+      });
+
   static const char* Trilu_ver1_doc = R"DOC(
       Returns the upper or lower triangular part of a 2-D matrix, or batches of 2-D matrices. If the attribute "upper" is set to true,
       the upper triangular matrix is retained. Lower triangular matrix is retained otherwise. Default value for upper is true.

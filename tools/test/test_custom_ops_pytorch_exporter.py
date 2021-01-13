@@ -105,6 +105,14 @@ class ONNXExporterTest(unittest.TestCase):
         x = torch.randn(2, 3, 3)
         self.run_test(CustomInverse(), x, custom_opsets={'com.microsoft': 1})
 
+    def test_zconv(self):
+        class CustomZconv(torch.nn.Module):
+            def forward(self, x):
+                return torch.inverse(x) + x
+
+        x = torch.randn(2, 3, 3)
+        self.run_test(CustomZconv(), x, custom_opsets={'com.microsoft': 1})
+
     def test_gelu(self):
         model = torch.nn.GELU()
         x = torch.randn(3, 3)
