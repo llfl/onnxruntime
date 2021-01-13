@@ -13,7 +13,7 @@ namespace onnxruntime {
 namespace contrib {
 class Zconv final : public OpKernel {
  public:
-  explicit Inverse(const OpKernelInfo& info) : OpKernel(info) {}
+  explicit Zconv(const OpKernelInfo& info) : OpKernel(info) {}
   Status Compute(OpKernelContext* ctx) const override;
 
  private:
