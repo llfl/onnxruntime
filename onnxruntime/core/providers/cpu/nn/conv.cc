@@ -19,11 +19,13 @@
 
 #include "core/common/safeint.h"
 #include "core/util/math_cpuonly.h"
+#include "stdio.h"
 
 namespace onnxruntime {
 
 template <typename T>
 Status Conv<T>::Compute(OpKernelContext* context) const {
+  printf("hi there\n");
   const auto* X = context->Input<Tensor>(0);
   const auto* W = context->Input<Tensor>(1);
   const Tensor* B = context->Input<Tensor>(2);  // optional. nullptr if not provided
