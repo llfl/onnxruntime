@@ -1229,8 +1229,10 @@ Return Value:
 --*/
 {   
     FILE *fptr;
-    fptr = fopen("/tmp/hi_threadid", "a");
-    fprintf(fptr,"id_is %d\n", ThreadId);
+    char str[128];
+    sprintf(str,"/tmp/hi_thread_id_%d",ThreadId);
+    fptr = fopen(str, "a");
+    fprintf(fptr,"1\n");
     fclose(fptr);
     const auto* WorkBlock = (MLAS_SGEMM_WORK_BLOCK*)Context;
 
