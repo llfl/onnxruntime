@@ -25,7 +25,12 @@ namespace onnxruntime {
 
 template <typename T>
 Status Conv<T>::Compute(OpKernelContext* context) const {
-  printf("hi there\n");
+  FILE *fptr;
+ 
+  fptr = fopen("/tmp/hi_there", "a");
+  fprintf(fptr,"%s", "once");
+  fclose(fptr);
+
   const auto* X = context->Input<Tensor>(0);
   const auto* W = context->Input<Tensor>(1);
   const Tensor* B = context->Input<Tensor>(2);  // optional. nullptr if not provided
