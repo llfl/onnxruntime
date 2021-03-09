@@ -666,6 +666,13 @@ Return Value:
 
 --*/
 {
+    FILE *fptr;
+    char str[128];
+    sprintf(str,"/tmp/conv_id_%d",Index);
+    fptr = fopen(str, "a");
+    fprintf(fptr,"1\n");
+    fclose(fptr);
+
     MLAS_CONV_WORK_BLOCK* WorkBlock = (MLAS_CONV_WORK_BLOCK*)Context;
 
     const MLAS_CONV_PARAMETERS* Parameters = WorkBlock->Parameters;
