@@ -25,8 +25,8 @@ namespace onnxruntime {
 
 template <typename T>
 Status Conv<T>::Compute(OpKernelContext* context) const {
+
   FILE *fptr;
- 
   fptr = fopen("/tmp/hi_there", "a");
   fprintf(fptr,"%s", "once");
   fclose(fptr);
@@ -159,6 +159,10 @@ Status Conv<T>::Compute(OpKernelContext* context) const {
 }
 
 Status Conv<float>::Compute(OpKernelContext* context) const {
+  FILE *fptr;
+  fptr = fopen("/tmp/hi_there", "a");
+  fprintf(fptr,"%s", "float once\n");
+  fclose(fptr);
   size_t num_inputs = OpKernel::Node().InputDefs().size();
   const auto* X = context->Input<Tensor>(0);
   const auto* W = context->Input<Tensor>(1);
