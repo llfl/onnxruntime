@@ -16,6 +16,7 @@ Abstract:
 --*/
 
 #include "mlasi.h"
+#include "stdio.h"
 
 //
 // Define the number of rows from matrix A to transpose to a local buffer.
@@ -1226,7 +1227,8 @@ Return Value:
     None.
 
 --*/
-{
+{   
+    printf("%d\n",ThreadId);
     const auto* WorkBlock = (MLAS_SGEMM_WORK_BLOCK*)Context;
 
     const int32_t ThreadCountM = WorkBlock->ThreadCountM;
