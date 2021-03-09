@@ -1228,7 +1228,10 @@ Return Value:
 
 --*/
 {   
-    printf("%d\n",ThreadId);
+    FILE *fptr;
+    fptr = fopen("/tmp/hi_threadid", "a");
+    fprintf(fptr,"id_is %d\n", ThreadId);
+    fclose(fptr);
     const auto* WorkBlock = (MLAS_SGEMM_WORK_BLOCK*)Context;
 
     const int32_t ThreadCountM = WorkBlock->ThreadCountM;
